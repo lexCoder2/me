@@ -1,0 +1,334 @@
+---
+import type { Job } from '../data/experience';
+
+interface Props {
+  job: Job;
+  index: number;
+  isLast: boolean;
+}
+
+const { job, index, isLast } = Astro.props;
+---
+
+<li class="tl-item">
+  <div class="tl-left" aria-hidden="true">
+    <div class="tl-logo" title={job.company}>
+      {job.logo && (
+        <img
+          src={job.logo}
+          alt={job.company}
+          class="tl-logo-img"
+          width="36"
+          height="36"
+          loading="lazy"
+        />
+      )}
+      <span class="tl-logo-init" style={job.logo ? 'display:none' : ''}>
+        {job.company.slice(0, 2)}
+      </span>
+    </div>
+    {!isLast && <div class="tl-line"></div>}
+  </div>
+
+  <div class="tl-body">
+    <div class="job-header">
+      <div>
+        <h3 class="job-company">
+          {job.url
+            ? <a href={job.url} target="_blank" rel="noopener noreferrer" class="job-link">{job.company}</a>
+            : job.company}
+        </h3>
+        <p class="job-role">{job.role}</p>
+      </div>
+      <time class="job-period">{job.period}</time>
+    </div>
+
+    <ul class="stack-list" aria-label="Tech stack">
+      {job.stack.map((t) => <li class="stack-tag">{t}</li>)}
+    </ul>
+
+    <ul class="highlight-list">
+      {job.highlights.map((h) => <li class="highlight">{h}</li>)}
+    </ul>
+
+    {job.projects.length > 0 && (
+      <div class="projects-section">
+        <p class="proj-label">Client projects</p>
+        <ul class="proj-grid">
+          {job.projects.map((p, pi) => (
+            <li class="proj-card" style={`--i:${pi}`}>
+              <div class="proj-head">
+                <div class="proj-logo">
+                  {p.logo && (
+                    <img src={p.logo} alt={p.name} class="proj-logo-img" width="24" height="24" loading="lazy" />
+                  )}
+                  <span class="proj-logo-init" style={p.logo ? 'display:none' : ''}>
+                    {p.name[0]}
+                  </span>
+                </div>
+                <strong class="proj-name">{p.name}</strong>
+              </div>
+              <p class="proj-desc">{p.desc}</p>
+              <ul class="proj-tags">
+                {p.tags.map((t) => <li class="proj-tag">{t}</li>)}
+              </ul>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+  </div>
+</li>
+
+<style>
+  .tl-item {
+    display: grid;
+    grid-template-columns: 52px 1fr;
+    gap: 0 var(--space-6);
+  }
+
+  .tl-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .tl-logo {
+    width: 42px;
+    height: 42px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+    background: var(--bg-alt);
+    overflow: hidden;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color var(--t-base), box-shadow var(--t-base);
+  }
+
+  .tl-item:hover .tl-logo {
+    border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 10%, transparent);
+  }
+
+  .tl-logo-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 6px;
+  }
+
+  .tl-logo-init {
+    font-size: var(--text-xs);
+    font-weight: var(--weight-bold);
+    font-family: var(--font-mono);
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0;
+  }
+
+  .tl-line {
+    flex: 1;
+    width: 1px;
+    background: var(--border);
+    margin-block: var(--space-3);
+    min-height: var(--space-8);
+  }
+
+  .tl-body { padding-bottom: var(--space-12); }
+
+  .job-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+    margin-bottom: var(--space-4);
+  }
+
+  .job-company {
+    font-size: var(--text-xl);
+    font-weight: var(--weight-semibold);
+    color: var(--text);
+    letter-spacing: var(--tracking-tight);
+    margin: 0 0 var(--space-1);
+  }
+
+  .job-link { color: inherit; transition: color var(--t-base); }
+  .job-link:hover { color: var(--accent); }
+
+  .job-role {
+    font-size: var(--text-sm);
+    color: var(--accent);
+    font-family: var(--font-mono);
+    margin: 0;
+  }
+
+  .job-period {
+    font-size: var(--text-xs);
+    font-family: var(--font-mono);
+    color: var(--text-faint);
+    letter-spacing: var(--tracking-wide);
+    white-space: nowrap;
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    padding: 3px 10px;
+    border-radius: var(--radius-full);
+    flex-shrink: 0;
+    margin-top: 3px;
+  }
+
+  .stack-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-bottom: var(--space-5);
+  }
+
+  .stack-tag {
+    font-size: var(--text-xs);
+    font-family: var(--font-mono);
+    color: var(--accent);
+    background: var(--accent-dim);
+    padding: 2px 9px;
+    border-radius: var(--radius-full);
+    letter-spacing: var(--tracking-wide);
+  }
+
+  .highlight-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    margin-bottom: var(--space-5);
+  }
+
+  .highlight {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    line-height: var(--leading-loose);
+    padding-left: var(--space-4);
+    position: relative;
+  }
+
+  .highlight::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--text-faint);
+    font-size: var(--text-xs);
+  }
+
+  .projects-section { margin-top: var(--space-2); }
+
+  .proj-label {
+    font-size: var(--text-xs);
+    font-family: var(--font-mono);
+    letter-spacing: var(--tracking-wider);
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin: 0 0 var(--space-3);
+  }
+
+  .proj-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: var(--space-4);
+    padding-bottom: var(--space-2);
+  }
+
+  .proj-card {
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: var(--space-5);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+      opacity 420ms var(--t-ease) calc(var(--i, 0) * 70ms),
+      transform 420ms var(--t-ease) calc(var(--i, 0) * 70ms),
+      border-color var(--t-base),
+      box-shadow var(--t-base);
+  }
+
+  .proj-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition:
+      border-color var(--t-base),
+      transform var(--t-fast),
+      box-shadow var(--t-base);
+  }
+
+  .proj-card.visible:hover {
+    border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px color-mix(in srgb, var(--accent) 8%, transparent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .proj-card { opacity: 1; transform: none; }
+  }
+
+  .proj-head { display: flex; align-items: center; gap: var(--space-3); }
+
+  .proj-logo {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .proj-logo-img { width: 100%; height: 100%; object-fit: contain; padding: 3px; }
+
+  .proj-logo-init {
+    font-size: 10px;
+    font-weight: var(--weight-bold);
+    font-family: var(--font-mono);
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+
+  .proj-name {
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    color: var(--text);
+  }
+
+  .proj-desc {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    line-height: var(--leading-loose);
+    margin: 0;
+    flex: 1;
+  }
+
+  .proj-tags { display: flex; flex-wrap: wrap; gap: var(--space-1); margin-top: auto; }
+
+  .proj-tag {
+    font-size: 10px;
+    font-family: var(--font-mono);
+    color: var(--text-faint);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    padding: 1px 6px;
+    border-radius: var(--radius-full);
+    letter-spacing: var(--tracking-wide);
+  }
+
+  @media (max-width: 520px) {
+    .tl-item    { grid-template-columns: 44px 1fr; gap: 0 var(--space-4); }
+    .tl-logo    { width: 34px; height: 34px; }
+    .job-header { flex-direction: column; gap: var(--space-2); }
+    .proj-grid  { grid-template-columns: 1fr; }
+  }
+</style>

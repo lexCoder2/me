@@ -1,4 +1,6 @@
 ---
+import HeroLogo from './hero/HeroLogo.astro';
+import HeroIllustration from './hero/HeroIllustration.astro';
 ---
 
 <section class="hero" id="home">
@@ -6,131 +8,53 @@
 
     <!-- LEFT: brand lockup + text -->
     <div class="hero-text">
-      <p class="hero-greeting fade-up" style="animation-delay: 0ms">Hi, I'm</p>
-
-      <!-- logo + name side-by-side lockup -->
-      <div class="brand-lockup fade-up logo-mark-wrap" style="animation-delay: 60ms" aria-label="lexCoder — Irwin Rodriguez">
-        <svg
-          class="logo-mark"
-          viewBox="0 0 948 948"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          aria-hidden="true"
-        >
-          <g transform="matrix(1,0,0,1,-883.986713,-706.271207)">
-            <path
-              class="logo-path"
-              d="M1273.295,1359.556C1267.811,1354.486 1260.497,1351.87 1253.042,1352.311C1222.626,1352.407 1152.646,1349.975 1123.171,1349.518C1103.391,1349.211 1086.4,1349.802 1075.166,1333.519C1067.28,1322.089 1084.13,1289.77 1094.01,1272.632L1094.078,1272.515C1151.96,1173.323 1279.379,960.655 1292.812,931.487C1297.002,922.389 1292.416,913.836 1285.43,908.381C1271.419,897.441 1247.67,897.881 1233.942,921.269C1201.796,976.036 1067.155,1213.893 991.706,1350.608L991.681,1350.653C985.871,1361.13 982.652,1374.921 988.754,1385.23C994.855,1395.54 1009.364,1400.822 1021.344,1400.77C1021.344,1400.77 1219.968,1405.088 1254.943,1405.848C1258.295,1405.921 1261.489,1407.287 1263.856,1409.662C1275.831,1421.255 1293.252,1433.214 1316.49,1448.11C1317.939,1449.045 1318.594,1450.827 1318.096,1452.478C1317.598,1454.129 1316.067,1455.251 1314.343,1455.23C1254.986,1454.496 1021.566,1451.603 1021.566,1451.603C991.543,1451.734 960.641,1440.019 945.348,1414.182C930.056,1388.345 932.665,1352.259 947.2,1326.047C1022.849,1188.97 1157.871,950.449 1190.103,895.537C1229.367,828.645 1303.206,844.325 1332.1,884.183C1345.944,903.281 1350.501,927.744 1338.984,952.752C1325.394,982.259 1196.636,1197.623 1138.014,1298.083C1137.472,1299.076 1137.5,1300.286 1138.093,1301.255C1138.699,1302.244 1139.798,1302.822 1140.956,1302.763L1140.975,1302.762C1186.933,1305.768 1249.228,1303.699 1278.072,1303.84C1292.189,1303.909 1301.426,1311.051 1305.476,1315.559C1354.899,1370.565 1405.006,1401.893 1464.996,1409.147C1528.544,1416.832 1583.471,1392.794 1645.95,1344.287C1663.881,1330.367 1660.682,1311.678 1652.817,1301.24C1642.76,1287.893 1622.921,1296.686 1612.15,1305.019C1527.513,1370.496 1442.825,1372.49 1370.367,1308.015C1339.907,1280.912 1315.049,1242.619 1307.499,1184.2C1296.523,1099.289 1346.228,1001.811 1427.256,972.566C1480.996,953.169 1540.25,963.275 1614.588,1028.906C1624.271,1037.455 1638.206,1046.355 1651.529,1029.807C1662.314,1016.412 1652.356,1000.81 1647.067,993.359C1638.925,981.888 1613.124,956.32 1576.833,937.152C1520.768,907.54 1461.162,893.637 1382.67,933.816C1378.841,935.776 1379.445,930.366 1379.445,930.366C1381.399,916.366 1379.483,908.308 1377.338,897.31C1376.514,893.084 1379.565,892.598 1382.545,890.943C1442.426,857.672 1534.388,865.834 1597.89,900.294C1641.177,923.784 1674.999,952.085 1692.822,980.863C1715.106,1016.842 1694.948,1054.12 1682.545,1066.265C1655.892,1092.364 1620.603,1092.205 1590.425,1065.561C1534.853,1016.497 1484.689,1005.879 1444.514,1020.38C1384.679,1041.976 1349.808,1114.981 1357.913,1177.684C1363.555,1221.34 1380.036,1252.505 1402.798,1272.759C1454.521,1318.783 1523.427,1318.135 1567.205,1282.495C1610.269,1247.436 1628.945,1244.527 1651.438,1249.237C1664.822,1252.04 1679.447,1261.521 1689.87,1278.307C1707.699,1307.019 1707.462,1345.811 1675.169,1374.956C1623.002,1422.038 1530.981,1460.745 1463.342,1455.133C1399.913,1449.87 1333.911,1415.302 1273.295,1359.556Z"
-            />
-          </g>
-        </svg>
-        <h1 class="hero-name">Alex Rodriguez</h1>
+      <div class="avail-badge fade-up" style="animation-delay: 0ms">
+        <span class="avail-dot" aria-hidden="true"></span>
+        Available for opportunities
       </div>
 
-      <h2 class="hero-title fade-up" style="animation-delay: 160ms">
+      <HeroLogo />
+
+      <p class="hero-greeting fade-up" style="animation-delay: 130ms">Hi, I'm</p>
+      <h1 class="hero-name fade-up" style="animation-delay: 190ms">
+        <span>Alex </span><span class="hero-name-accent">Rodriguez</span>
+      </h1>
+
+      <h2 class="hero-title fade-up" style="animation-delay: 250ms">
         Senior Full-Stack Developer
       </h2>
-      <p class="hero-tagline fade-up" style="animation-delay: 240ms">
+      <p class="hero-tagline fade-up" style="animation-delay: 330ms">
         I build fast, secure, and thoughtful web experiences — and I love
         every layer of the stack.
       </p>
-      <div class="hero-actions fade-up" style="animation-delay: 320ms">
-        <a href="/#contact" class="btn btn-primary">Get in touch</a>
+
+      <ul class="hero-stats fade-up" style="animation-delay: 390ms" aria-label="Career highlights">
+        <li><span class="stat-num">10+</span>&nbsp;yrs</li>
+        <li class="stat-sep" aria-hidden="true">/</li>
+        <li>React · Node.js · Python</li>
+        <li class="stat-sep" aria-hidden="true">/</li>
+        <li>AWS · Azure · GCP</li>
+      </ul>
+
+      <div class="hero-actions fade-up" style="animation-delay: 450ms">
+        <a href="#contact" class="btn btn-primary">Get in touch</a>
         <a href="/blog" class="btn btn-ghost">Read the blog</a>
         <a href="/Irwin Alejandro Rodriguez Ramirez - Resume.pdf" download class="btn btn-ghost">Download Resume</a>
       </div>
     </div>
 
-    <!-- RIGHT: developer / computer illustration -->
-    <div class="dev-illo-wrap fade-up" style="animation-delay: 200ms" aria-hidden="true">
-      <svg class="dev-illo" viewBox="0 0 360 310" xmlns="http://www.w3.org/2000/svg" fill="none">
-
-        <!-- ── Background node graph ─────────────────────────── -->
-        <circle cx="326" cy="28"  r="3" class="nd"/>
-        <circle cx="352" cy="136" r="2" class="nd"/>
-        <circle cx="334" cy="266" r="3" class="nd"/>
-        <circle cx="18"  cy="76"  r="2" class="nd"/>
-        <circle cx="24"  cy="250" r="3" class="nd"/>
-        <line x1="326" y1="28"  x2="352" y2="136" class="nl"/>
-        <line x1="352" y1="136" x2="334" y2="266" class="nl"/>
-        <line x1="18"  y1="76"  x2="24"  y2="250" class="nl"/>
-
-        <!-- ── Floating </> tag — top-right ─────────────────── -->
-        <g class="float-a">
-          <polyline points="303,16 293,24 303,32" class="br"/>
-          <line x1="309" y1="16" x2="315" y2="32" class="br"/>
-          <polyline points="321,16 331,24 321,32" class="br"/>
-        </g>
-
-        <!-- ── Floating { } braces — bottom-left ────────────── -->
-        <g class="float-b">
-          <path d="M34,250 C30,250 31,244 31,240 C31,236 28,236 28,236 C28,236 31,236 31,232 C31,228 30,222 34,222" class="br"/>
-          <path d="M42,250 C46,250 45,244 45,240 C45,236 48,236 48,236 C48,236 45,236 45,232 C45,228 46,222 42,222" class="br"/>
-        </g>
-
-        <!-- ── Terminal window ───────────────────────────────── -->
-        <!-- Outer frame -->
-        <rect x="56" y="42" width="260" height="198" rx="10" class="win-frame"/>
-        <!-- Title bar fill -->
-        <path d="M66,42 L306,42 C311.523,42 316,46.477 316,52 L316,70 L56,70 L56,52 C56,46.477 60.477,42 66,42 Z" class="win-bar"/>
-        <!-- Traffic lights -->
-        <circle cx="78"  cy="56" r="5" class="dot-r"/>
-        <circle cx="95"  cy="56" r="5" class="dot-y"/>
-        <circle cx="112" cy="56" r="5" class="dot-g"/>
-        <!-- Tab pill -->
-        <rect x="138" y="49" width="58" height="14" rx="4" class="tab-pill"/>
-
-        <!-- ── Code lines ─────────────────────────────────── -->
-        <!-- line 1: prompt + command -->
-        <rect x="74"  y="84"  width="9"  height="7" rx="2" class="c-dim"/>
-        <rect x="88"  y="84"  width="52" height="7" rx="3" class="c-accent"/>
-        <rect x="146" y="84"  width="34" height="7" rx="3" class="c-muted"/>
-
-        <!-- line 2 -->
-        <rect x="86"  y="101" width="28" height="7" rx="3" class="c-accent"/>
-        <rect x="120" y="101" width="7"  height="7" rx="2" class="c-dim"/>
-        <rect x="133" y="101" width="48" height="7" rx="3" class="c-muted"/>
-        <rect x="187" y="101" width="7"  height="7" rx="2" class="c-dim"/>
-
-        <!-- line 3 -->
-        <rect x="86"  y="118" width="22" height="7" rx="3" class="c-accent"/>
-        <rect x="114" y="118" width="54" height="7" rx="3" class="c-muted"/>
-        <rect x="174" y="118" width="20" height="7" rx="3" class="c-accent2"/>
-
-        <!-- line 4 -->
-        <rect x="74"  y="135" width="9"  height="7" rx="2" class="c-dim"/>
-        <rect x="88"  y="135" width="40" height="7" rx="3" class="c-muted"/>
-
-        <!-- line 5 — long accent (highlight line) -->
-        <rect x="86"  y="152" width="116" height="7" rx="3" class="c-accent"/>
-
-        <!-- line 6 -->
-        <rect x="74"  y="169" width="9"  height="7" rx="2" class="c-dim"/>
-        <rect x="88"  y="169" width="30" height="7" rx="3" class="c-muted"/>
-
-        <!-- output line (green) -->
-        <rect x="74"  y="186" width="78" height="7" rx="3" class="c-ok"/>
-
-        <!-- cursor -->
-        <rect x="74"  y="202" width="3"  height="13" rx="1" class="cursor-blink"/>
-
-        <!-- ── Monitor stand ──────────────────────────────── -->
-        <line x1="186" y1="240" x2="186" y2="264" class="stand"/>
-        <rect x="158"  y="264" width="56"  height="6"  rx="3" class="stand-base"/>
-      </svg>
-    </div>
+    <!-- RIGHT: developer illustration -->
+    <HeroIllustration />
 
   </div>
-</section>
 
-<script>
-  // Measure actual path length for smooth stroke animation
-  const path = document.querySelector<SVGPathElement>('.logo-path');
-  if (path) {
-    const len = path.getTotalLength();
-    path.style.setProperty('--path-len', String(len));
-  }
-</script>
+  <!-- Scroll hint -->
+  <a href="#about" class="scroll-hint" aria-label="Scroll to about section">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <polyline points="6 9 12 15 18 9"/>
+    </svg>
+  </a>
+</section>
 
 <style>
   .hero {
@@ -138,9 +62,9 @@
     display: flex;
     align-items: center;
     padding-top: var(--nav-height);
+    position: relative;
   }
 
-  /* Two-column layout */
   .hero-layout {
     display: flex;
     align-items: center;
@@ -157,54 +81,19 @@
     font-size: var(--text-base);
     font-family: var(--font-mono);
     color: var(--accent);
-    margin-bottom: var(--space-3);
+    margin-bottom: var(--space-1);
     letter-spacing: var(--tracking-wide);
   }
 
-  /* ── Brand lockup (logo + name) ────────────────────────── */
-  .brand-lockup {
-    display: flex;
-    align-items: center;
-    gap: var(--space-4);
-    margin-bottom: var(--space-4);
-    cursor: default;
-  }
-
-  .logo-mark {
-    flex-shrink: 0;
-    width: clamp(52px, 7vw, 72px);
-    height: auto;
-    overflow: visible;
-    display: block;
-  }
-
-  .logo-path {
-    fill: rgba(108, 126, 255, 0.07);
-    stroke: var(--accent);
-    stroke-width: 6;
-    stroke-linejoin: round;
-    stroke-linecap: round;
-    stroke-dasharray:  var(--path-len, 5500);
-    stroke-dashoffset: var(--path-len, 5500);
-    transition:
-      stroke-dashoffset var(--t-speed-slow) var(--t-ease-out),
-      fill              var(--t-slow),
-      stroke            var(--t-base);
-  }
-
-  .brand-lockup:hover .logo-path {
-    stroke-dashoffset: 0;
-    fill: rgba(108, 126, 255, 0.14);
-    stroke: var(--accent-hover);
-  }
-
   .hero-name {
-    font-size: clamp(var(--text-3xl), 5.5vw, var(--text-5xl));
+    font-size: clamp(var(--text-4xl), 7vw, 5rem);
     letter-spacing: var(--tracking-tight);
     line-height: var(--leading-tight);
     color: var(--text);
-    margin: 0;
+    margin: 0 0 var(--space-3);
   }
+
+  .hero-name-accent { color: var(--accent); }
 
   .hero-title {
     font-size: clamp(var(--text-xl), 3vw, var(--text-3xl));
@@ -219,7 +108,7 @@
     max-width: 480px;
     color: var(--text-muted);
     line-height: var(--leading-loose);
-    margin-bottom: var(--space-10);
+    margin-bottom: var(--space-5);
   }
 
   .hero-actions {
@@ -228,69 +117,31 @@
     flex-wrap: wrap;
   }
 
-  /* ── Developer illustration ─────────────────────────────── */
-  .dev-illo-wrap {
-    flex-shrink: 0;
-    width: clamp(200px, 32vw, 440px);   /* grows up to 440px on wide screens */
+  /* Stats row */
+  .hero-stats {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    font-size: var(--text-xs);
+    font-family: var(--font-mono);
+    color: var(--text-faint);
+    letter-spacing: var(--tracking-wide);
+    margin-bottom: var(--space-8);
   }
 
-  .dev-illo {
-    width: 100%;
-    height: auto;
-    display: block;
-    overflow: visible;
+  .stat-num {
+    color: var(--accent);
+    font-weight: var(--weight-semibold);
   }
 
-  /* Node graph */
-  .nd  { fill: var(--accent); opacity: 0.25; }
-  .nl  { stroke: var(--accent); stroke-width: 0.8; opacity: 0.12; }
-
-  /* Floating symbols */
-  .br  { stroke: var(--accent); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; opacity: 0.55; }
-  .float-a { animation: floatA 5s ease-in-out infinite; }
-  .float-b { animation: floatB 6s ease-in-out infinite; }
-
-  @keyframes floatA {
-    0%, 100% { transform: translateY(0px); }
-    50%       { transform: translateY(-7px); }
-  }
-  @keyframes floatB {
-    0%, 100% { transform: translateY(0px); }
-    50%       { transform: translateY(5px); }
+  .stat-sep {
+    color: var(--text-faint);
+    opacity: 0.4;
+    user-select: none;
   }
 
-  /* Terminal window */
-  .win-frame  { stroke: var(--border); stroke-width: 1.5; }
-  .win-bar    { fill: rgba(255,255,255,0.04); }
-  .tab-pill   { fill: rgba(108,126,255,0.12); }
-
-  .dot-r  { fill: rgba(255,94,86,0.55); }
-  .dot-y  { fill: rgba(255,188,46,0.45); }
-  .dot-g  { fill: rgba(40,200,100,0.45); }
-
-  /* Code line colours */
-  .c-accent  { fill: var(--accent);       opacity: 0.75; }
-  .c-accent2 { fill: var(--accent-hover); opacity: 0.6;  }
-  .c-muted   { fill: var(--text-faint);   opacity: 0.35; }
-  .c-dim     { fill: var(--text-faint);   opacity: 0.2;  }
-  .c-ok      { fill: #40c980;             opacity: 0.55; }
-
-  /* Blinking cursor */
-  .cursor-blink {
-    fill: var(--accent);
-    opacity: 0.9;
-    animation: blink 1.1s step-end infinite;
-  }
-  @keyframes blink {
-    0%, 100% { opacity: 0.9; }
-    50%       { opacity: 0;   }
-  }
-
-  /* Monitor stand */
-  .stand      { stroke: var(--border); stroke-width: 1.5; stroke-linecap: round; }
-  .stand-base { stroke: var(--border); stroke-width: 1.5; }
-
-  /* ── Buttons ─────────────────────────────────────────────── */
+  /* Buttons */
   .btn {
     display: inline-flex;
     align-items: center;
@@ -313,10 +164,12 @@
   .btn-primary {
     background: var(--accent);
     color: #fff;
+    box-shadow: 0 0 14px -6px color-mix(in srgb, var(--accent) 40%, transparent);
   }
   .btn-primary:hover {
     background: var(--accent-hover);
     color: #fff;
+    box-shadow: 0 0 18px -4px color-mix(in srgb, var(--accent) 48%, transparent);
   }
 
   .btn-ghost {
@@ -328,18 +181,63 @@
     border-color: var(--text-faint);
   }
 
-  /* ── Responsive ─────────────────────────────────────────── */
+  /* Availability badge */
+  .avail-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-xs);
+    font-family: var(--font-mono);
+    letter-spacing: var(--tracking-wide);
+    color: var(--text-muted);
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    padding: 5px 14px;
+    border-radius: var(--radius-full);
+    margin-bottom: var(--space-5);
+  }
+
+  .avail-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #3cba6c;
+    box-shadow: 0 0 0 0 rgba(60, 186, 108, 0.5);
+    animation: pulse-dot 2.2s ease-out infinite;
+    flex-shrink: 0;
+  }
+
+  @keyframes pulse-dot {
+    0%   { box-shadow: 0 0 0 0   rgba(60, 186, 108, 0.5); }
+    70%  { box-shadow: 0 0 0 6px rgba(60, 186, 108, 0);   }
+    100% { box-shadow: 0 0 0 0   rgba(60, 186, 108, 0);   }
+  }
+
+  /* Scroll hint */
+  .scroll-hint {
+    position: absolute;
+    bottom: var(--space-8);
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--text-faint);
+    transition: color var(--t-base);
+    animation: bounce-down 2.4s ease-in-out infinite;
+  }
+
+  .scroll-hint:hover { color: var(--text-muted); }
+
+  @keyframes bounce-down {
+    0%, 100% { transform: translateX(-50%) translateY(0);   }
+    50%       { transform: translateX(-50%) translateY(6px); }
+  }
+
+  @media (max-height: 600px) { .scroll-hint { display: none; } }
+
   @media (max-width: 900px) {
     .hero-layout {
       flex-direction: column;
       align-items: flex-start;
       gap: var(--space-10);
     }
-
-    .dev-illo-wrap {
-      width: clamp(200px, 70vw, 360px);
-      align-self: center;
-    }
   }
 </style>
-

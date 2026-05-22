@@ -1,5 +1,6 @@
 ---
 import type { Project } from '../data/projects';
+import { useTranslations } from '../i18n';
 
 interface Props {
   project: Project;
@@ -7,6 +8,8 @@ interface Props {
 }
 
 const { project: p, langColor } = Astro.props;
+const T = useTranslations(Astro.currentLocale);
+const description = T.projects.descriptions[p.name] ?? p.description;
 ---
 
 <li class="project-card" data-category={p.category}>
@@ -17,7 +20,7 @@ const { project: p, langColor } = Astro.props;
     rel="noopener noreferrer"
     aria-label={`View ${p.name} on GitHub`}
   >
-    {p.featured && <span class="featured-badge">Featured</span>}
+    {p.featured && <span class="featured-badge">{T.projects.featured}</span>}
 
     <div class="card-header">
       <span class="repo-icon" aria-hidden="true">
@@ -36,7 +39,7 @@ const { project: p, langColor } = Astro.props;
       )}
     </div>
 
-    <p class="card-desc">{p.description}</p>
+    <p class="card-desc">{description}</p>
 
     <div class="card-footer">
       <div class="tag-list" aria-label="Technologies">

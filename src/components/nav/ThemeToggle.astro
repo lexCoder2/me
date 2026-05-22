@@ -1,12 +1,11 @@
 ---
+import { useTranslations } from '../../i18n';
+const T = useTranslations(Astro.currentLocale);
 ---
 
-<button class="theme-toggle" id="theme-btn" aria-label="Toggle color theme">
-  <span class="tt-track" aria-hidden="true">
-    <span class="tt-knob"></span>
-  </span>
-  <!-- Sun icon -->
-  <svg class="tt-icon tt-sun" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<button class="theme-toggle" id="theme-btn" aria-label={T.nav.toggleTheme}>
+  <!-- Sun: visible in dark mode -->
+  <svg class="tt-sun" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
     <circle cx="12" cy="12" r="5"/>
     <line x1="12" y1="1"  x2="12" y2="3"/>
     <line x1="12" y1="21" x2="12" y2="23"/>
@@ -17,62 +16,60 @@
     <line x1="4.22"  y1="19.78" x2="5.64"  y2="18.36"/>
     <line x1="18.36" y1="5.64"  x2="19.78" y2="4.22"/>
   </svg>
-  <!-- Moon icon -->
-  <svg class="tt-icon tt-moon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <!-- Moon: visible in light mode -->
+  <svg class="tt-moon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
     <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
   </svg>
 </button>
 
 <style>
   .theme-toggle {
-    display: flex;
+    position: relative;
+    display: inline-flex;
     align-items: center;
-    gap: var(--space-2);
-    padding: 4px 8px;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
     border-radius: var(--radius-full);
     border: 1px solid var(--border);
-    background: var(--bg-alt);
+    background: transparent;
     cursor: pointer;
     color: var(--text-muted);
+    flex-shrink: 0;
     transition:
       border-color var(--t-base),
       background   var(--t-base),
       color        var(--t-base);
   }
+
   .theme-toggle:hover {
-    border-color: var(--accent);
+    border-color: color-mix(in srgb, var(--accent) 50%, transparent);
+    background: var(--accent-dim);
     color: var(--accent);
   }
 
-  /* Track + knob */
-  .tt-track {
-    display: inline-flex;
-    align-items: center;
-    width: 28px;
-    height: 16px;
-    border-radius: var(--radius-full);
-    background: var(--accent-dim);
-    position: relative;
-    transition: background var(--t-base);
-  }
-  .tt-knob {
+  /* Icon switching — only one visible at a time */
+  .tt-sun,
+  .tt-moon {
     position: absolute;
-    left: 2px;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: var(--accent);
-    transition: transform var(--t-base), background var(--t-base);
+    transition:
+      opacity   var(--t-base),
+      transform var(--t-base);
   }
-  [data-theme="light"] .tt-knob { transform: translateX(12px); }
 
-  /* Icon visibility */
-  .tt-icon { display: block; }
-  .tt-sun  { opacity: 0.5; }
-  .tt-moon { opacity: 0.5; }
+  /* Base / fallback state: dark mode (sun visible) */
+  .tt-sun  { opacity: 1; transform: rotate(0deg) scale(1); }
+  .tt-moon { opacity: 0; transform: rotate(-30deg) scale(0.7); }
 
-  [data-theme="dark"]  .tt-moon { opacity: 1; }
-  [data-theme="light"] .tt-sun  { opacity: 1; }
-  [data-theme="dark"]  .tt-sun  { opacity: 0.3; }
-  [data-theme="light"] .tt-moon { opacity: 0.3; }
+  /* Dark mode: show sun — use :global() so Astro doesn't scope [data-theme] */
+  :global([data-theme="dark"])  .tt-sun  { opacity: 1; transform: rotate(0deg) scale(1); }
+  :global([data-theme="dark"])  .tt-moon { opacity: 0; transform: rotate(-30deg) scale(0.7); }
+
+  /* Light mode: show moon */
+  :global([data-theme="light"]) .tt-moon { opacity: 1; transform: rotate(0deg) scale(1); }
+  :global([data-theme="light"]) .tt-sun  { opacity: 0; transform: rotate(30deg) scale(0.7); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tt-sun, .tt-moon { transition: opacity var(--t-base); }
+  }
 </style>

@@ -1,0 +1,63 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Hero from '../../components/Hero.astro';
+import About from '../../components/About.astro';
+import Experience from '../../components/Experience.astro';
+import Education from '../../components/Education.astro';
+import Skills from '../../components/Skills.astro';
+import Projects from '../../components/Projects.astro';
+import Contact from '../../components/Contact.astro';
+import { useTranslations } from '../../i18n';
+
+const T = useTranslations(Astro.currentLocale);
+---
+
+<BaseLayout title="Home" description={T.meta.description}>
+  <Hero />
+  <hr class="container divider" />
+  <About />
+  <hr class="container divider" />
+  <Experience />
+  <hr class="container divider" />
+  <Education />
+  <hr class="container divider" />
+  <Skills />
+  <hr class="container divider" />
+  <Projects />
+  <hr class="container divider" />
+  <Contact />
+
+  <footer class="site-footer">
+    <div class="container">
+      <p class="footer-text">
+        <a href="https://github.com/lexCoder2" target="_blank" rel="noopener noreferrer">GitHub</a> ·
+        <a href="https://linkedin.com/in/iarodriguezr" target="_blank" rel="noopener noreferrer">LinkedIn</a> ·
+        {T.footer.builtWith} <a href="https://astro.build" target="_blank" rel="noopener noreferrer">Astro</a> ·
+        &copy; {new Date().getFullYear()} Irwin Rodriguez
+      </p>
+    </div>
+  </footer>
+</BaseLayout>
+
+<style>
+  .site-footer {
+    padding-block: var(--space-10) var(--space-12);
+    border-top: 1px solid var(--border);
+  }
+
+  .footer-text {
+    font-size: var(--text-xs);
+    font-family: var(--font-mono);
+    color: var(--text-faint);
+    letter-spacing: var(--tracking-wide);
+  }
+
+  .footer-text a {
+    color: var(--text-faint);
+    transition: color var(--t-base);
+  }
+
+  .footer-text a:hover {
+    color: var(--accent);
+  }
+</style>

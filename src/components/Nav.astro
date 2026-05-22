@@ -1,13 +1,18 @@
 ---
 import NavLogo from './nav/NavLogo.astro';
 import ThemeToggle from './nav/ThemeToggle.astro';
+import LanguageSwitcher from './nav/LanguageSwitcher.astro';
+import { useTranslations } from '../i18n';
+
+const T = useTranslations(Astro.currentLocale);
+const locale = Astro.currentLocale ?? 'en';
 
 const links = [
-  { label: 'About',      href: '/#about'      },
-  { label: 'Experience', href: '/#experience' },
-  { label: 'Skills',     href: '/#skills'     },
-  { label: 'Contact',    href: '/#contact'    },
-  { label: 'Blog',       href: '/blog'        },
+  { label: T.nav.about,      href: `/${locale}/#about`      },
+  { label: T.nav.experience, href: `/${locale}/#experience` },
+  { label: T.nav.skills,     href: `/${locale}/#skills`     },
+  { label: T.nav.contact,    href: `/${locale}/#contact`    },
+  { label: T.nav.blog,       href: `/${locale}/blog`        },
 ];
 ---
 
@@ -23,9 +28,13 @@ const links = [
       ))}
     </ul>
 
+    <div class="nav-controls">
+      <LanguageSwitcher />
+    </div>
+
     <ThemeToggle />
 
-    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+    <button class="nav-toggle" id="nav-toggle" aria-label={T.nav.toggleMenu} aria-expanded="false">
       <span class="bar"></span>
       <span class="bar"></span>
     </button>
@@ -42,6 +51,9 @@ const links = [
         </li>
       ))}
     </ul>
+    <div class="mobile-lang">
+      <LanguageSwitcher />
+    </div>
   </div>
 </nav>
 
@@ -109,6 +121,12 @@ const links = [
     gap: var(--space-8);
   }
 
+  .nav-controls {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
   .nav-link {
     font-size: var(--text-sm);
     font-weight: var(--weight-medium);
@@ -156,7 +174,7 @@ const links = [
     transition: max-height var(--t-slow);
   }
 
-  .mobile-menu.open { max-height: 320px; }
+  .mobile-menu.open { max-height: 420px; }
 
   .mobile-links {
     padding: var(--space-4) var(--space-6) var(--space-6);
@@ -176,8 +194,17 @@ const links = [
   .mobile-link:hover { color: var(--text); }
 
   @media (max-width: 640px) {
-    .nav-links  { display: none; }
-    .nav-toggle { display: flex; }
-    .mobile-menu { display: block; }
+    .nav-links    { display: none; }
+    .nav-controls { display: none; }
+    .nav-toggle   { display: flex; }
+    .mobile-menu  { display: block; }
+  }
+
+  .mobile-lang {
+    padding: var(--space-4) var(--space-6) var(--space-5);
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
   }
 </style>

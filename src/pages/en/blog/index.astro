@@ -1,0 +1,51 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import BlogCard from '../../../components/BlogCard.astro';
+import { useTranslations } from '../../../i18n';
+
+const T = useTranslations(Astro.currentLocale);
+const allPosts = (await getCollection('blog', ({ id, data }) => id.startsWith('en/') && !data.draft))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+
+<BaseLayout title={T.blog.title} description={T.meta.blogDescription}>
+  <div class="container blog-index section">
+    <span class="section-label">{T.blog.label}</span>
+    <h1 class="section-title">{T.blog.title}</h1>
+    <p class="blog-intro">{T.blog.intro}</p>
+
+    {allPosts.length === 0 ? (
+      <p class="empty">{T.blog.noPosts}</p>
+    ) : (
+      <div class="post-list">
+        {allPosts.map((post) => <BlogCard post={post} locale="en" />)}
+      </div>
+    )}
+  </div>
+</BaseLayout>
+
+<style>
+  .blog-index {
+    padding-top: calc(var(--nav-height) + var(--space-16));
+  }
+
+  .blog-intro {
+    font-size: var(--text-base);
+    color: var(--text-muted);
+    max-width: 520px;
+    line-height: var(--leading-loose);
+    margin-bottom: var(--space-12);
+  }
+
+  .post-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .empty {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    color: var(--text-faint);
+  }
+</style>

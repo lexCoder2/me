@@ -1,21 +1,23 @@
 ---
+import { useTranslations } from '../i18n';
+const T = useTranslations(Astro.currentLocale);
 ---
 
 <section class="section" id="education">
   <div class="container">
-    <span class="section-label">Academic background</span>
-    <h2 class="section-title">Education</h2>
+    <span class="section-label">{T.education.label}</span>
+    <h2 class="section-title">{T.education.title}</h2>
 
     <div class="edu-item">
       <div class="edu-header">
         <div>
-          <h3 class="edu-school">Instituto Politécnico Nacional</h3>
-          <p class="edu-faculty">Escuela Superior de Ingeniería Mecánica y Eléctrica (ESIME)</p>
+          <h3 class="edu-school">{T.education.school}</h3>
+          <p class="edu-faculty">{T.education.faculty}</p>
         </div>
-        <span class="edu-degree">B.E. Electronic & Communications</span>
+        <span class="edu-degree">{T.education.degree}</span>
       </div>
       <p class="edu-specialty">
-        Software Engineering specialty
+        {T.education.specialty}
       </p>
     </div>
   </div>

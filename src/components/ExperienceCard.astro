@@ -1,5 +1,6 @@
 ---
 import type { Job } from '../data/experience';
+import { useTranslations } from '../i18n';
 
 interface Props {
   job: Job;
@@ -8,6 +9,18 @@ interface Props {
 }
 
 const { job, index, isLast } = Astro.props;
+
+const T = useTranslations(Astro.currentLocale);
+
+type ExperienceJobKey = 'kunai' | 'wizeline' | 'purpura' | 'creatima';
+type ExperienceProjectKey = 'capitalOne' | 'pwc' | 'google' | 'baz' | 'awr';
+
+const jobKey = job.id as ExperienceJobKey;
+const jobT = T.experience[jobKey] as {
+  highlights: string[];
+  projects: Record<string, { desc: string }>;
+};
+const highlights: string[] = jobT?.highlights ?? job.highlights;
 ---
 
 <li class="tl-item">
@@ -43,37 +56,41 @@ const { job, index, isLast } = Astro.props;
       <time class="job-period">{job.period}</time>
     </div>
 
-    <ul class="stack-list" aria-label="Tech stack">
+    <ul class="stack-list" aria-label={T.experience.stackLabel}>
       {job.stack.map((t) => <li class="stack-tag">{t}</li>)}
     </ul>
 
     <ul class="highlight-list">
-      {job.highlights.map((h) => <li class="highlight">{h}</li>)}
+      {highlights.map((h) => <li class="highlight">{h}</li>)}
     </ul>
 
     {job.projects.length > 0 && (
       <div class="projects-section">
-        <p class="proj-label">Client projects</p>
+        <p class="proj-label">{T.experience.clientProjects}</p>
         <ul class="proj-grid">
-          {job.projects.map((p, pi) => (
-            <li class="proj-card" style={`--i:${pi}`}>
-              <div class="proj-head">
-                <div class="proj-logo">
-                  {p.logo && (
-                    <img src={p.logo} alt={p.name} class="proj-logo-img" width="24" height="24" loading="lazy" />
-                  )}
-                  <span class="proj-logo-init" style={p.logo ? 'display:none' : ''}>
-                    {p.name[0]}
-                  </span>
+          {job.projects.map((p, pi) => {
+            const projKey = p.id as ExperienceProjectKey;
+            const projDesc: string = jobT?.projects?.[projKey]?.desc ?? p.desc;
+            return (
+              <li class="proj-card" style={`--i:${pi}`}>
+                <div class="proj-head">
+                  <div class="proj-logo">
+                    {p.logo && (
+                      <img src={p.logo} alt={p.name} class="proj-logo-img" width="24" height="24" loading="lazy" />
+                    )}
+                    <span class="proj-logo-init" style={p.logo ? 'display:none' : ''}>
+                      {p.name[0]}
+                    </span>
+                  </div>
+                  <strong class="proj-name">{p.name}</strong>
                 </div>
-                <strong class="proj-name">{p.name}</strong>
-              </div>
-              <p class="proj-desc">{p.desc}</p>
-              <ul class="proj-tags">
-                {p.tags.map((t) => <li class="proj-tag">{t}</li>)}
-              </ul>
-            </li>
-          ))}
+                <p class="proj-desc">{projDesc}</p>
+                <ul class="proj-tags">
+                  {p.tags.map((t) => <li class="proj-tag">{t}</li>)}
+                </ul>
+              </li>
+            );
+          })}
         </ul>
       </div>
     )}

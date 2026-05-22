@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Projects filter', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/en/');
     // Scroll to projects section so cards are in the DOM
     await page.locator('#projects').scrollIntoViewIfNeeded();
   });

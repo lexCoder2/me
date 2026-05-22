@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Homepage sections', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/en/');
   });
 
   test('page title contains lexCoder', async ({ page }) => {
@@ -34,7 +34,7 @@ test.describe('Homepage sections', () => {
   });
 
   test('get in touch CTA link exists', async ({ page }) => {
-    const cta = page.locator('a[href="#contact"]').first();
+    const cta = page.locator('a[href$="/#contact"], a[href$="#contact"]').first();
     await expect(cta).toBeVisible();
   });
 });

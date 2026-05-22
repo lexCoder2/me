@@ -1,6 +1,10 @@
 ---
 import HeroLogo from './hero/HeroLogo.astro';
 import HeroIllustration from './hero/HeroIllustration.astro';
+import { useTranslations } from '../i18n';
+
+const T = useTranslations(Astro.currentLocale);
+const locale = Astro.currentLocale ?? 'en';
 ---
 
 <section class="hero" id="home">
@@ -10,26 +14,25 @@ import HeroIllustration from './hero/HeroIllustration.astro';
     <div class="hero-text">
       <div class="avail-badge fade-up" style="animation-delay: 0ms">
         <span class="avail-dot" aria-hidden="true"></span>
-        Available for opportunities
+        {T.hero.badge}
       </div>
 
       <HeroLogo />
 
-      <p class="hero-greeting fade-up" style="animation-delay: 130ms">Hi, I'm</p>
+      <p class="hero-greeting fade-up" style="animation-delay: 130ms">{T.hero.greeting}</p>
       <h1 class="hero-name fade-up" style="animation-delay: 190ms">
         <span>Alex </span><span class="hero-name-accent">Rodriguez</span>
       </h1>
 
       <h2 class="hero-title fade-up" style="animation-delay: 250ms">
-        Senior Full-Stack Developer
+        {T.hero.role}
       </h2>
       <p class="hero-tagline fade-up" style="animation-delay: 330ms">
-        I build fast, secure, and thoughtful web experiences — and I love
-        every layer of the stack.
+        {T.hero.tagline}
       </p>
 
       <ul class="hero-stats fade-up" style="animation-delay: 390ms" aria-label="Career highlights">
-        <li><span class="stat-num">10+</span>&nbsp;yrs</li>
+        <li><span class="stat-num">10+</span>&nbsp;{T.hero.statsYears}</li>
         <li class="stat-sep" aria-hidden="true">/</li>
         <li>React · Node.js · Python</li>
         <li class="stat-sep" aria-hidden="true">/</li>
@@ -37,9 +40,9 @@ import HeroIllustration from './hero/HeroIllustration.astro';
       </ul>
 
       <div class="hero-actions fade-up" style="animation-delay: 450ms">
-        <a href="#contact" class="btn btn-primary">Get in touch</a>
-        <a href="/blog" class="btn btn-ghost">Read the blog</a>
-        <a href="/Irwin Alejandro Rodriguez Ramirez - Resume.pdf" download class="btn btn-ghost">Download Resume</a>
+        <a href={`/${locale}/#contact`} class="btn btn-primary">{T.hero.cta.contact}</a>
+        <a href={`/${locale}/blog`} class="btn btn-ghost">{T.hero.cta.blog}</a>
+        <a href="/Irwin Alejandro Rodriguez Ramirez - Resume.pdf" download class="btn btn-ghost">{T.hero.cta.resume}</a>
       </div>
     </div>
 
@@ -49,7 +52,7 @@ import HeroIllustration from './hero/HeroIllustration.astro';
   </div>
 
   <!-- Scroll hint -->
-  <a href="#about" class="scroll-hint" aria-label="Scroll to about section">
+  <a href={`/${locale}/#about`} class="scroll-hint" aria-label={T.hero.scrollLabel}>
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
       <polyline points="6 9 12 15 18 9"/>
     </svg>

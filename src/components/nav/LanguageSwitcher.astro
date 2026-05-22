@@ -1,0 +1,61 @@
+---
+import { locales, type Locale, getLocalizedUrl, localeLabels } from '../../i18n';
+
+const currentLocale = (Astro.currentLocale ?? 'en') as Locale;
+---
+
+<div class="lang-switcher">
+  {locales.map((locale) => (
+    <a
+      href={getLocalizedUrl(Astro.url, locale)}
+      class:list={['lang-link', { active: locale === currentLocale }]}
+      aria-current={locale === currentLocale ? 'true' : undefined}
+      hreflang={locale}
+    >
+      {localeLabels[locale]}
+    </a>
+  ))}
+</div>
+
+<style>
+  .lang-switcher {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+  }
+
+  .lang-link {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    letter-spacing: var(--tracking-wide);
+    color: var(--text-muted);
+    text-decoration: none;
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-sm);
+    transition: color var(--t-base), background-color var(--t-base);
+    /* Ensure minimum 44px tap target on touch devices */
+    min-height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  @media (max-width: 640px) {
+    .lang-link {
+      font-size: var(--text-sm);
+      padding: var(--space-2) var(--space-3);
+      min-height: 44px;
+    }
+  }
+
+  .lang-link:hover {
+    color: var(--text);
+    background-color: var(--surface-2);
+  }
+
+  .lang-link.active {
+    color: var(--accent);
+    font-weight: 700;
+  }
+</style>

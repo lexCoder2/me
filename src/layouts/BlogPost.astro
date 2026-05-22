@@ -1,6 +1,7 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 import type { CollectionEntry } from 'astro:content';
+import { useTranslations, type Locale } from '../i18n';
 
 interface Props {
   post: CollectionEntry<'blog'>;
@@ -8,8 +9,11 @@ interface Props {
 
 const { post } = Astro.props;
 const { title, description, date, tags } = post.data;
+const locale = (Astro.currentLocale ?? 'en') as Locale;
+const T = useTranslations(locale);
 
-const formattedDate = new Date(date).toLocaleDateString('en-US', {
+const localeCodes: Record<Locale, string> = { en: 'en-US', es: 'es-MX', de: 'de-DE' };
+const formattedDate = new Date(date).toLocaleDateString(localeCodes[locale], {
   year: 'numeric',
   month: 'long',
   day: 'numeric',
@@ -18,7 +22,7 @@ const formattedDate = new Date(date).toLocaleDateString('en-US', {
 
 <BaseLayout title={title} description={description}>
   <article class="container blog-post section">
-    <a href="/blog" class="back-link">← All posts</a>
+    <a href={`/${locale}/blog`} class="back-link">{T.blog.backLink}</a>
 
     <header class="post-header">
       <time class="post-date" datetime={date.toISOString()}>{formattedDate}</time>

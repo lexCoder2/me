@@ -1,4 +1,5 @@
 export interface ClientProject {
+  id: string;
   name: string;
   logo: string | null;
   tags: string[];
@@ -6,6 +7,7 @@ export interface ClientProject {
 }
 
 export interface Job {
+  id: string;
   company: string;
   logo: string | null;
   url: string | null;
@@ -18,6 +20,7 @@ export interface Job {
 
 export const jobs: Job[] = [
   {
+    id: 'kunai',
     company: 'Kunai',
     logo: 'https://logo.clearbit.com/kunai.io',
     url: 'https://kunai.io',
@@ -30,12 +33,14 @@ export const jobs: Job[] = [
     ],
     projects: [
       {
+        id: 'capitalOne',
         name: 'Capital One',
         logo: 'https://logo.clearbit.com/capitalone.com',
         tags: ['DevSecOps', 'CI/CD', 'Compliance'],
         desc: 'Led development of an internal platform to automate security compliance and software delivery across the engineering organization, reducing manual review cycles and improving deployment standards.',
       },
       {
+        id: 'pwc',
         name: 'PwC',
         logo: 'https://logo.clearbit.com/pwc.com',
         tags: ['AI Agents', 'RAG', 'LangChain'],
@@ -44,6 +49,7 @@ export const jobs: Job[] = [
     ],
   },
   {
+    id: 'wizeline',
     company: 'Wizeline',
     logo: 'https://logo.clearbit.com/wizeline.com',
     url: 'https://wizeline.com',
@@ -55,18 +61,21 @@ export const jobs: Job[] = [
     ],
     projects: [
       {
+        id: 'google',
         name: 'Google',
         logo: 'https://logo.clearbit.com/google.com',
         tags: ['Apache Beam', 'GCP Dataflow', 'Python', 'Java'],
         desc: 'Developed and optimized distributed data processing pipelines in Python and Java using Apache Beam on Google Cloud Dataflow, handling large-scale event streams.',
       },
       {
+        id: 'baz',
         name: 'BAZ · Grupo Salinas',
         logo: 'https://logo.clearbit.com/gsalinas.com.mx',
         tags: ['React', 'Node.js', 'Fintech'],
         desc: 'Built full-stack features for a high-traffic fintech super-app (BAZ) using React and Node.js, serving millions of users across Mexico.',
       },
       {
+        id: 'awr',
         name: 'American Water Resources',
         logo: 'https://logo.clearbit.com/americanwaterresources.com',
         tags: ['Angular', 'Node.js', 'CRM APIs'],
@@ -75,6 +84,7 @@ export const jobs: Job[] = [
     ],
   },
   {
+    id: 'purpura',
     company: 'Purpura Analytics',
     logo: null,
     url: null,
@@ -90,6 +100,7 @@ export const jobs: Job[] = [
     projects: [],
   },
   {
+    id: 'creatima',
     company: 'Creatima',
     logo: null,
     url: null,

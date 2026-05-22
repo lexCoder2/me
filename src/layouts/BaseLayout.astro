@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import Nav from '../components/Nav.astro';
 import CanvasBackground from '../components/CanvasBackground.astro';
+import { useTranslations, locales, type Locale } from '../i18n';
 
 interface Props {
   title: string;
@@ -10,20 +11,27 @@ interface Props {
   canonicalURL?: string;
 }
 
+const locale = (Astro.currentLocale ?? 'en') as Locale;
+const T = useTranslations(locale);
+
 const {
   title,
-  description = 'Senior Full-Stack Developer with 10+ years of experience in React, Angular, Node.js, Python, and cloud infrastructure.',
+  description = T.meta.description,
   image = '/og-image.png',
   canonicalURL = new URL(Astro.url.pathname, Astro.site).href,
 } = Astro.props;
 
 const siteTitle = title === 'Home'
-  ? 'Irwin Rodriguez — Senior Full-Stack Developer'
+  ? T.meta.homeTitle
   : `${title} · Irwin Rodriguez`;
+
+// hreflang alternate links
+const origin = Astro.site ? Astro.site.href.replace(/\/$/, '') : '';
+const pathWithoutLocale = Astro.url.pathname.replace(/^\/(en|es|de)/, '') || '/';
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={locale}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -32,6 +40,12 @@ const siteTitle = title === 'Home'
     <title>{siteTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
+
+    <!-- hreflang alternate links -->
+    {locales.map((l) => (
+      <link rel="alternate" hreflang={l} href={`${origin}/${l}${pathWithoutLocale}`} />
+    ))}
+    <link rel="alternate" hreflang="x-default" href={`${origin}/en${pathWithoutLocale}`} />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />

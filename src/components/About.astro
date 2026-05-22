@@ -1,10 +1,12 @@
 ---
+import { useTranslations } from '../i18n';
+const T = useTranslations(Astro.currentLocale);
 ---
 
 <section class="section" id="about">
   <div class="container">
-    <span class="section-label">About me</span>
-    <h2 class="section-title">A bit of background</h2>
+    <span class="section-label">{T.about.label}</span>
+    <h2 class="section-title">{T.about.title}</h2>
     <div class="about-layout">
 
       <!-- LEFT: profile illustration -->
@@ -153,36 +155,23 @@
 
       <!-- RIGHT: text content -->
       <div class="about-body fade-up" style="animation-delay: 0ms">
-        <p>
-          Senior Full-Stack Engineer with 10+ years building scalable web applications, REST APIs, and
-        cloud-native systems across fintech, healthcare, and enterprise sectors. Using
-        <strong>React</strong>, <strong>Angular</strong>, <strong>Node.js</strong>, and
-        <strong>Python</strong>, I've worked across the full stack — from database design to cloud
-        infrastructure on <strong>Azure</strong> and <strong>AWS</strong>.
-      </p>
-      <p>
-        In recent years I've become an expert in generative AI: designing secure, production-ready
-        LLM workflows, building MCP servers, and orchestrating multi-agent systems. I care a lot
-        about code quality, security, and delivering things that actually work in the real world.
-      </p>
-      <p>
-        I thrive in cross-functional teams, value clear communication, and care deeply about
-        security, code quality, and delivering software that genuinely works at scale.
-      </p>
-      <ul class="meta-list">
-        <li>
-          <span class="meta-label">Location</span>
-          <span class="meta-value">Cuauhtémoc, Mexico City, MX</span>
-        </li>
-        <li>
-          <span class="meta-label">Email</span>
-          <a href="mailto:hi@iarodriguez.com" class="meta-value">hi@iarodriguez.com</a>
-        </li>
-        <li>
-          <span class="meta-label">Education</span>
-          <span class="meta-value">Software Engineering — IPN, ESIME</span>
-        </li>
-      </ul>
+        <p set:html={T.about.p1}></p>
+        <p set:html={T.about.p2}></p>
+        <p>{T.about.p3}</p>
+        <ul class="meta-list">
+          <li>
+            <span class="meta-label">{T.about.labels.location}</span>
+            <span class="meta-value">{T.about.meta.location}</span>
+          </li>
+          <li>
+            <span class="meta-label">{T.about.labels.email}</span>
+            <a href="mailto:hi@iarodriguez.com" class="meta-value">{T.about.meta.email}</a>
+          </li>
+          <li>
+            <span class="meta-label">{T.about.labels.education}</span>
+            <span class="meta-value">{T.about.meta.education}</span>
+          </li>
+        </ul>
       </div><!-- .about-body -->
     </div><!-- .about-layout -->
   </div>

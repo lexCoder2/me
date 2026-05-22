@@ -1,0 +1,67 @@
+---
+import '../styles/global.css';
+import Nav from '../components/Nav.astro';
+import CanvasBackground from '../components/CanvasBackground.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  canonicalURL?: string;
+}
+
+const {
+  title,
+  description = 'Senior Full-Stack Developer with 10+ years of experience in React, Angular, Node.js, Python, and cloud infrastructure.',
+  image = '/me/og-image.png',
+  canonicalURL = new URL(Astro.url.pathname, Astro.site).href,
+} = Astro.props;
+
+const siteTitle = title === 'Home'
+  ? 'Irwin Rodriguez — Senior Full-Stack Developer'
+  : `${title} · Irwin Rodriguez`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#09090e" />
+
+    <title>{siteTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={siteTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL(image, Astro.site).href} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={siteTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={new URL(image, Astro.site).href} />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="sitemap" href="/me/sitemap-index.xml" />
+    <link rel="icon" type="image/svg+xml" href="/me/favicon.svg" />
+  </head>
+  <body>
+    <CanvasBackground />
+    <Nav />
+    <main>
+      <slot />
+    </main>
+  </body>
+</html>

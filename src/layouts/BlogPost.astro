@@ -1,0 +1,192 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+const { title, description, date, tags } = post.data;
+
+const formattedDate = new Date(date).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<BaseLayout title={title} description={description}>
+  <article class="container blog-post section">
+    <a href="/me/blog" class="back-link">← All posts</a>
+
+    <header class="post-header">
+      <time class="post-date" datetime={date.toISOString()}>{formattedDate}</time>
+      <h1 class="post-title">{title}</h1>
+      {description && <p class="post-desc">{description}</p>}
+      {tags && tags.length > 0 && (
+        <ul class="tag-list">
+          {tags.map((tag: string) => (
+            <li class="tag">{tag}</li>
+          ))}
+        </ul>
+      )}
+    </header>
+
+    <div class="prose">
+      <slot />
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .blog-post {
+    padding-top: calc(var(--nav-height) + var(--space-16));
+  }
+
+  .back-link {
+    display: inline-block;
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    margin-bottom: var(--space-12);
+    transition: color var(--t-base);
+  }
+
+  .back-link:hover {
+    color: var(--accent);
+  }
+
+  .post-header {
+    margin-bottom: var(--space-12);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: var(--space-8);
+  }
+
+  .post-date {
+    display: block;
+    font-size: var(--text-sm);
+    color: var(--text-faint);
+    font-family: var(--font-mono);
+    margin-bottom: var(--space-3);
+    transition: color var(--t-base);
+  }
+
+  .post-title {
+    font-size: var(--text-4xl);
+    letter-spacing: var(--tracking-tight);
+    margin-bottom: var(--space-4);
+  }
+
+  .post-desc {
+    font-size: var(--text-lg);
+    color: var(--text-muted);
+    line-height: var(--leading-snug);
+    margin-bottom: var(--space-6);
+  }
+
+  .tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .tag {
+    font-size: var(--text-xs);
+    font-family: var(--font-mono);
+    color: var(--accent);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    padding: var(--space-1) var(--space-3);
+    border: 1px solid var(--accent-dim);
+    border-radius: var(--radius-full);
+    transition:
+      color var(--t-base),
+      background var(--t-base),
+      border-color var(--t-base);
+  }
+
+  /* ── Prose styles ────────────────────────────────────────── */
+  .prose {
+    font-size: var(--text-base);
+    line-height: var(--leading-loose);
+    color: var(--text-muted);
+  }
+
+  .prose :global(h2) {
+    font-size: var(--text-2xl);
+    color: var(--text);
+    margin-top: var(--space-12);
+    margin-bottom: var(--space-4);
+    letter-spacing: var(--tracking-tight);
+  }
+
+  .prose :global(h3) {
+    font-size: var(--text-xl);
+    color: var(--text);
+    margin-top: var(--space-8);
+    margin-bottom: var(--space-3);
+  }
+
+  .prose :global(p) {
+    margin-bottom: var(--space-6);
+    color: var(--text-muted);
+    line-height: var(--leading-loose);
+  }
+
+  .prose :global(ul), .prose :global(ol) {
+    margin-bottom: var(--space-6);
+    padding-left: var(--space-6);
+  }
+
+  .prose :global(ul) { list-style: disc; }
+  .prose :global(ol) { list-style: decimal; }
+
+  .prose :global(li) {
+    color: var(--text-muted);
+    margin-bottom: var(--space-2);
+    line-height: var(--leading-loose);
+  }
+
+  .prose :global(code) {
+    color: var(--accent);
+    background: var(--accent-dim);
+    padding: 0.1em 0.4em;
+    border-radius: var(--radius-sm);
+    font-size: 0.875em;
+  }
+
+  .prose :global(pre) {
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: var(--space-6);
+    overflow-x: auto;
+    margin-bottom: var(--space-6);
+  }
+
+  .prose :global(pre code) {
+    background: none;
+    padding: 0;
+    color: var(--text);
+    font-size: var(--text-sm);
+  }
+
+  .prose :global(blockquote) {
+    border-left: 2px solid var(--accent);
+    padding-left: var(--space-6);
+    color: var(--text-muted);
+    font-style: italic;
+    margin-block: var(--space-6);
+  }
+
+  .prose :global(a) {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color var(--t-base);
+  }
+
+  .prose :global(a:hover) {
+    color: var(--accent-hover);
+  }
+</style>

@@ -1,0 +1,222 @@
+---
+const links = [
+  { label: 'About',      href: '/#about'      },
+  { label: 'Experience', href: '/#experience' },
+  { label: 'Skills',     href: '/#skills'     },
+  { label: 'Contact',    href: '/#contact'    },
+  { label: 'Blog',       href: '/me/blog'     },
+];
+---
+
+<nav class="nav" id="main-nav">
+  <div class="nav-inner">
+    <a href="/me/" class="nav-logo" aria-label="Go to homepage">
+      <!-- lexCoder logo mark — inherits currentColor from .nav-logo -->
+      <svg
+        class="nav-logo-svg"
+        viewBox="0 0 948 948"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+      >
+        <g transform="matrix(1,0,0,1,-883.986713,-706.271207)">
+          <path fill="currentColor" d="M1273.295,1359.556C1267.811,1354.486 1260.497,1351.87 1253.042,1352.311C1222.626,1352.407 1152.646,1349.975 1123.171,1349.518C1103.391,1349.211 1086.4,1349.802 1075.166,1333.519C1067.28,1322.089 1084.13,1289.77 1094.01,1272.632L1094.078,1272.515C1151.96,1173.323 1279.379,960.655 1292.812,931.487C1297.002,922.389 1292.416,913.836 1285.43,908.381C1271.419,897.441 1247.67,897.881 1233.942,921.269C1201.796,976.036 1067.155,1213.893 991.706,1350.608L991.681,1350.653C985.871,1361.13 982.652,1374.921 988.754,1385.23C994.855,1395.54 1009.364,1400.822 1021.344,1400.77C1021.344,1400.77 1219.968,1405.088 1254.943,1405.848C1258.295,1405.921 1261.489,1407.287 1263.856,1409.662C1275.831,1421.255 1293.252,1433.214 1316.49,1448.11C1317.939,1449.045 1318.594,1450.827 1318.096,1452.478C1317.598,1454.129 1316.067,1455.251 1314.343,1455.23C1254.986,1454.496 1021.566,1451.603 1021.566,1451.603C991.543,1451.734 960.641,1440.019 945.348,1414.182C930.056,1388.345 932.665,1352.259 947.2,1326.047C1022.849,1188.97 1157.871,950.449 1190.103,895.537C1229.367,828.645 1303.206,844.325 1332.1,884.183C1345.944,903.281 1350.501,927.744 1338.984,952.752C1325.394,982.259 1196.636,1197.623 1138.014,1298.083C1137.472,1299.076 1137.5,1300.286 1138.093,1301.255C1138.699,1302.244 1139.798,1302.822 1140.956,1302.763L1140.975,1302.762C1186.933,1305.768 1249.228,1303.699 1278.072,1303.84C1292.189,1303.909 1301.426,1311.051 1305.476,1315.559C1354.899,1370.565 1405.006,1401.893 1464.996,1409.147C1528.544,1416.832 1583.471,1392.794 1645.95,1344.287C1663.881,1330.367 1660.682,1311.678 1652.817,1301.24C1642.76,1287.893 1622.921,1296.686 1612.15,1305.019C1527.513,1370.496 1442.825,1372.49 1370.367,1308.015C1339.907,1280.912 1315.049,1242.619 1307.499,1184.2C1296.523,1099.289 1346.228,1001.811 1427.256,972.566C1480.996,953.169 1540.25,963.275 1614.588,1028.906C1624.271,1037.455 1638.206,1046.355 1651.529,1029.807C1662.314,1016.412 1652.356,1000.81 1647.067,993.359C1638.925,981.888 1613.124,956.32 1576.833,937.152C1520.768,907.54 1461.162,893.637 1382.67,933.816C1378.841,935.776 1379.445,930.366 1379.445,930.366C1381.399,916.366 1379.483,908.308 1377.338,897.31C1376.514,893.084 1379.565,892.598 1382.545,890.943C1442.426,857.672 1534.388,865.834 1597.89,900.294C1641.177,923.784 1674.999,952.085 1692.822,980.863C1715.106,1016.842 1694.948,1054.12 1682.545,1066.265C1655.892,1092.364 1620.603,1092.205 1590.425,1065.561C1534.853,1016.497 1484.689,1005.879 1444.514,1020.38C1384.679,1041.976 1349.808,1114.981 1357.913,1177.684C1363.555,1221.34 1380.036,1252.505 1402.798,1272.759C1454.521,1318.783 1523.427,1318.135 1567.205,1282.495C1610.269,1247.436 1628.945,1244.527 1651.438,1249.237C1664.822,1252.04 1679.447,1261.521 1689.87,1278.307C1707.699,1307.019 1707.462,1345.811 1675.169,1374.956C1623.002,1422.038 1530.981,1460.745 1463.342,1455.133C1399.913,1449.87 1333.911,1415.302 1273.295,1359.556Z"/>
+        </g>
+      </svg>
+      <span class="nav-logo-name">lexCoder</span>
+    </a>
+
+    <ul class="nav-links" role="list">
+      {links.map((l) => (
+        <li>
+          <a href={l.href} class="nav-link">{l.label}</a>
+        </li>
+      ))}
+    </ul>
+
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+  </div>
+
+  <!-- Mobile menu -->
+  <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+    <ul class="mobile-links" role="list">
+      {links.map((l) => (
+        <li>
+          <a href={l.href} class="mobile-link">{l.label}</a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</nav>
+
+<script>
+  const nav       = document.getElementById('main-nav')!;
+  const toggle    = document.getElementById('nav-toggle')!;
+  const mobileMenu = document.getElementById('mobile-menu')!;
+
+  // Scroll: add "scrolled" class after 40px
+  const onScroll = () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // Mobile toggle
+  toggle.addEventListener('click', () => {
+    const open = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!open));
+    mobileMenu.setAttribute('aria-hidden', String(open));
+    mobileMenu.classList.toggle('open', !open);
+    toggle.classList.toggle('open', !open);
+  });
+
+  // Close mobile menu on link click
+  mobileMenu.querySelectorAll('a').forEach((a) => {
+    a.addEventListener('click', () => {
+      toggle.setAttribute('aria-expanded', 'false');
+      mobileMenu.setAttribute('aria-hidden', 'true');
+      mobileMenu.classList.remove('open');
+      toggle.classList.remove('open');
+    });
+  });
+</script>
+
+<style>
+  .nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--nav-height);
+    z-index: 100;
+    transition: background var(--t-base), border-color var(--t-base);
+    border-bottom: 1px solid transparent;
+  }
+
+  .nav.scrolled {
+    background: rgba(9, 9, 14, 0.88);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom-color: var(--border);
+  }
+
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    max-width: var(--content-width);
+    margin-inline: auto;
+    padding-inline: var(--space-5);
+  }
+
+  @media (min-width: 640px)  { .nav-inner { padding-inline: var(--space-6);  } }
+  @media (min-width: 1024px) { .nav-inner { padding-inline: var(--space-10); } }
+  @media (min-width: 1280px) { .nav-inner { padding-inline: var(--space-12); } }
+
+  /* Logo */
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--text);
+    transition: color var(--t-base);
+  }
+  .nav-logo:hover { color: var(--accent); }
+
+  .nav-logo-svg {
+    height: 24px;
+    width: 24px;
+    flex-shrink: 0;
+  }
+
+  .nav-logo-name {
+    font-family: var(--font-mono);
+    font-weight: var(--weight-semibold);
+    font-size: var(--text-sm);
+    letter-spacing: var(--tracking-wide);
+  }
+
+  /* Desktop links */
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+  }
+
+  .nav-link {
+    font-size: var(--text-sm);
+    font-weight: var(--weight-medium);
+    color: var(--text-muted);
+    letter-spacing: var(--tracking-wide);
+    transition: color var(--t-base);
+  }
+  .nav-link:hover { color: var(--text); }
+
+  /* Mobile toggle */
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    padding: var(--space-2);
+  }
+
+  .bar {
+    display: block;
+    width: 22px;
+    height: 1.5px;
+    background: var(--text-muted);
+    border-radius: var(--radius-full);
+    transition: transform var(--t-base), opacity var(--t-base), background var(--t-base);
+  }
+
+  .nav-toggle.open .bar:first-child {
+    transform: translateY(6.5px) rotate(45deg);
+    background: var(--text);
+  }
+  .nav-toggle.open .bar:last-child {
+    transform: translateY(-6.5px) rotate(-45deg);
+    background: var(--text);
+  }
+
+  /* Mobile menu */
+  .mobile-menu {
+    display: none;
+    background: rgba(9, 9, 14, 0.96);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-top: 1px solid var(--border);
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height var(--t-slow);
+  }
+
+  .mobile-menu.open {
+    max-height: 320px;
+  }
+
+  .mobile-links {
+    padding: var(--space-4) var(--space-6) var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .mobile-link {
+    font-size: var(--text-base);
+    font-weight: var(--weight-medium);
+    color: var(--text-muted);
+    padding-block: var(--space-3);
+    display: block;
+    transition: color var(--t-base);
+  }
+  .mobile-link:hover { color: var(--text); }
+
+  @media (max-width: 640px) {
+    .nav-links  { display: none; }
+    .nav-toggle { display: flex; }
+    .mobile-menu { display: block; }
+  }
+</style>

@@ -1,0 +1,65 @@
+---
+---
+
+<section class="section" id="education">
+  <div class="container">
+    <span class="section-label">Academic background</span>
+    <h2 class="section-title">Education</h2>
+
+    <div class="edu-item">
+      <div class="edu-header">
+        <div>
+          <h3 class="edu-school">Instituto Politécnico Nacional</h3>
+          <p class="edu-faculty">Escuela Superior de Ingeniería Mecánica y Eléctrica (ESIME)</p>
+        </div>
+        <span class="edu-degree">B.E. Electronic & Communications</span>
+      </div>
+      <p class="edu-specialty">
+        Software Engineering specialty
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .edu-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .edu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--space-6);
+    flex-wrap: wrap;
+  }
+
+  .edu-school {
+    font-size: var(--text-xl);
+    font-weight: var(--weight-semibold);
+    color: var(--text);
+    letter-spacing: var(--tracking-tight);
+    margin-bottom: var(--space-1);
+  }
+
+  .edu-faculty {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+  }
+
+  .edu-degree {
+    font-size: var(--text-xs);
+    font-family: var(--font-mono);
+    color: var(--accent);
+    letter-spacing: var(--tracking-wide);
+    white-space: nowrap;
+    padding-top: 3px;
+  }
+
+  .edu-specialty {
+    font-size: var(--text-sm);
+    color: var(--text-faint);
+  }
+</style>

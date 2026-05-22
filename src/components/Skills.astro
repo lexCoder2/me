@@ -1,0 +1,154 @@
+---
+const skillGroups = [
+  {
+    category: 'Frameworks',
+    items: [
+      { name: 'React',             level: 'Advanced' },
+      { name: 'Angular',           level: 'Advanced' },
+      { name: 'Node.js / Express', level: 'Advanced' },
+      { name: 'FastAPI',           level: '' },
+      { name: 'LangChain',         level: '' },
+      { name: 'LangGraph',         level: '' },
+      { name: 'Vue.js',            level: '' },
+      { name: 'Laravel',           level: '' },
+    ],
+  },
+  {
+    category: 'Languages',
+    items: [
+      { name: 'JavaScript', level: 'Advanced' },
+      { name: 'TypeScript', level: 'Advanced' },
+      { name: 'Python',     level: 'Advanced' },
+      { name: 'HTML5',      level: 'Advanced' },
+      { name: 'CSS3',       level: 'Advanced' },
+      { name: 'Java',       level: '' },
+      { name: 'SQL',        level: '' },
+      { name: 'PHP',        level: '' },
+    ],
+  },
+  {
+    category: 'AI / ML',
+    items: [
+      { name: 'Generative AI',                        level: '' },
+      { name: 'Large Language Models (LLM)',           level: '' },
+      { name: 'RAG (Retrieval-Augmented Generation)',  level: '' },
+      { name: 'Prompt Engineering',                   level: '' },
+      { name: 'AI Agents',                            level: '' },
+      { name: 'OpenAI API',                           level: '' },
+      { name: 'Claude (MCP, Agent Orchestration)',    level: '' },
+    ],
+  },
+  {
+    category: 'Cloud & DevOps',
+    items: [
+      { name: 'AWS (Lambda, S3, EC2, API Gateway)', level: '' },
+      { name: 'Azure',           level: '' },
+      { name: 'Docker',          level: '' },
+      { name: 'CI/CD Pipelines', level: '' },
+      { name: 'Jenkins',         level: '' },
+      { name: 'Firebase',        level: '' },
+      { name: 'Redis',           level: '' },
+      { name: 'Webpack',         level: '' },
+      { name: 'SASS',            level: '' },
+      { name: 'Git',             level: '' },
+    ],
+  },
+  {
+    category: 'Databases',
+    items: [
+      { name: 'MongoDB',    level: 'Advanced' },
+      { name: 'PostgreSQL', level: '' },
+      { name: 'MySQL',      level: '' },
+      { name: 'NoSQL',      level: '' },
+    ],
+  },
+  {
+    category: 'Process & Leadership',
+    items: [
+      { name: 'Agile',                  level: '' },
+      { name: 'Scrum',                  level: '' },
+      { name: 'Kanban',                 level: '' },
+      { name: 'Technical Leadership',   level: '' },
+      { name: 'Team Management',        level: '' },
+      { name: 'Stakeholder Management', level: '' },
+      { name: 'Jira',                   level: '' },
+    ],
+  },
+];
+---
+
+<section class="section" id="skills">
+  <div class="container">
+    <span class="section-label">What I work with</span>
+    <h2 class="section-title">Skills</h2>
+
+    <div class="skill-groups">
+      {skillGroups.map((group) => (
+        <div class="skill-group">
+          <h3 class="group-name">{group.category}</h3>
+          <ul class="skill-list">
+            {group.items.map((skill) => (
+              <li class="skill-chip">
+                {skill.name}
+                {skill.level && (
+                  <span class="skill-level">{skill.level}</span>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .skill-groups {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-10);
+  }
+
+  .group-name {
+    font-size: var(--text-xs);
+    font-family: var(--font-mono);
+    letter-spacing: var(--tracking-wider);
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: var(--space-4);
+    font-weight: var(--weight-medium);
+  }
+
+  .skill-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .skill-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    padding: var(--space-1) var(--space-3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-full);
+    transition:
+      color        var(--t-base),
+      border-color var(--t-base),
+      background   var(--t-base);
+  }
+
+  .skill-chip:hover {
+    color: var(--text);
+    border-color: var(--text-faint);
+  }
+
+  .skill-level {
+    font-size: var(--text-xs);
+    font-family: var(--font-mono);
+    color: var(--accent);
+    letter-spacing: var(--tracking-wide);
+  }
+</style>

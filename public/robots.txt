@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://lexCoder2.github.io/me/sitemap-index.xml

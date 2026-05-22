@@ -1,0 +1,93 @@
+---
+---
+
+<section class="section" id="about">
+  <div class="container">
+    <span class="section-label">About me</span>
+    <h2 class="section-title">A bit of background</h2>
+    <div class="about-body">
+      <p>
+        Senior Full-Stack Engineer with 10+ years building scalable web applications, REST APIs, and
+        cloud-native systems across fintech, healthcare, and enterprise sectors. Using
+        <strong>React</strong>, <strong>Angular</strong>, <strong>Node.js</strong>, and
+        <strong>Python</strong>, I've worked across the full stack — from database design to cloud
+        infrastructure on <strong>Azure</strong> and <strong>AWS</strong>.
+      </p>
+      <p>
+        In recent years I've become an expert in generative AI: designing secure, production-ready
+        LLM workflows, building MCP servers, and orchestrating multi-agent systems. I care a lot
+        about code quality, security, and delivering things that actually work in the real world.
+      </p>
+      <p>
+        I thrive in cross-functional teams, value clear communication, and care deeply about
+        security, code quality, and delivering software that genuinely works at scale.
+      </p>
+      <ul class="meta-list">
+        <li>
+          <span class="meta-label">Location</span>
+          <span class="meta-value">Cuauhtémoc, Mexico City, MX</span>
+        </li>
+        <li>
+          <span class="meta-label">Email</span>
+          <a href="mailto:hi@iarodriguez.com" class="meta-value">hi@iarodriguez.com</a>
+        </li>
+        <li>
+          <span class="meta-label">Education</span>
+          <span class="meta-value">Software Engineering — IPN, ESIME</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+
+  .about-body p {
+    font-size: var(--text-base);
+    color: var(--text-muted);
+    line-height: var(--leading-loose);
+    max-width: 640px;
+  }
+
+  .about-body strong {
+    color: var(--text);
+    font-weight: var(--weight-semibold);
+  }
+
+  .meta-list {
+    margin-top: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .meta-list li {
+    display: flex;
+    gap: var(--space-6);
+    align-items: baseline;
+  }
+
+  .meta-label {
+    font-size: var(--text-xs);
+    font-family: var(--font-mono);
+    letter-spacing: var(--tracking-wider);
+    text-transform: uppercase;
+    color: var(--text-faint);
+    min-width: 80px;
+  }
+
+  .meta-value {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    transition: color var(--t-base);
+  }
+
+  a.meta-value:hover {
+    color: var(--accent);
+  }
+</style>

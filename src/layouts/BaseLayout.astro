@@ -13,7 +13,7 @@ interface Props {
 const {
   title,
   description = 'Senior Full-Stack Developer with 10+ years of experience in React, Angular, Node.js, Python, and cloud infrastructure.',
-  image = '/me/og-image.png',
+  image = '/og-image.png',
   canonicalURL = new URL(Astro.url.pathname, Astro.site).href,
 } = Astro.props;
 
@@ -54,8 +54,8 @@ const siteTitle = title === 'Home'
       rel="stylesheet"
     />
 
-    <link rel="sitemap" href="/me/sitemap-index.xml" />
-    <link rel="icon" type="image/svg+xml" href="/me/favicon.svg" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
     <!-- Prevent flash of wrong theme — runs synchronously before first paint -->
     <script is:inline>

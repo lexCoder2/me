@@ -16,7 +16,7 @@ const formattedDate = new Date(date).toLocaleDateString('en-US', {
 ---
 
 <article class="blog-card">
-  <a href={`/me/blog/${post.id}`} class="card-link" tabindex="-1" aria-hidden="true"></a>
+  <a href={`/blog/${post.id}`} class="card-link" tabindex="-1" aria-hidden="true"></a>
 
   <header class="card-header">
     <time class="card-date" datetime={date.toISOString()}>{formattedDate}</time>
@@ -30,12 +30,12 @@ const formattedDate = new Date(date).toLocaleDateString('en-US', {
   </header>
 
   <h2 class="card-title">
-    <a href={`/me/blog/${post.id}`}>{title}</a>
+    <a href={`/blog/${post.id}`}>{title}</a>
   </h2>
 
   {description && <p class="card-desc">{description}</p>}
 
-  <a href={`/me/blog/${post.id}`} class="card-read">
+  <a href={`/blog/${post.id}`} class="card-read">
     Read post <span aria-hidden="true">→</span>
   </a>
 </article>

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://lexCoder2.github.io/me/sitemap-index.xml
+Sitemap: https://iarodriguez.com/sitemap-index.xml

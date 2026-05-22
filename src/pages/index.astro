@@ -1,5 +1,18 @@
 ---
-// This file is required by Astro i18n to generate the root redirect to /en/
-// The actual redirect is handled by Astro's built-in i18n routing
-// (redirectToDefaultLocale: true in astro.config.mjs)
+// Root redirect to default locale. Astro requires this file to exist when
+// using i18n with redirectToDefaultLocale: true, but also overrides it with
+// a higher-priority route — so we provide the explicit redirect ourselves.
+const locale = 'en';
 ---
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="refresh" content={`0; url=/${locale}/`} />
+    <link rel="canonical" href={`/${locale}/`} />
+    <title>Redirecting…</title>
+  </head>
+  <body>
+    <p>Redirecting to <a href={`/${locale}/`}>/{locale}/</a></p>
+  </body>
+</html>

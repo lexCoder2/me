@@ -8,7 +8,8 @@
 // GLOW_RADIUS      : illumination range — must be > INFLUENCE_RADIUS
 // REPULSION_FORCE  : how strongly dots flee the cursor (0–1)
 // RETURN_SPEED     : how quickly dots return to rest (0–1, lower = slower)
-// MAX_GLOW_BLUR    : peak canvas shadowBlur for the nearest glowing dots
+// MAX_HALO_EXTRA   : extra px added to dot radius for the glow halo ring
+// HALO_ALPHA_MAX   : peak alpha of the halo ring at the closest dot
 ---
 
 <canvas id="bg-canvas" aria-hidden="true"></canvas>
@@ -17,113 +18,200 @@
   // ─── Parameters ───────────────────────────────────────────
   const GRID_SIZE        = 42;
   const DOT_RADIUS       = 1.3;
-  const DOT_COLOR        = 'rgba(108, 126, 255, 0.18)';
-  const INFLUENCE_RADIUS = 140;   // repulsion / displacement range
+  const INFLUENCE_RADIUS = 180;   // repulsion / displacement range
   const GLOW_RADIUS      = 260;   // illumination range  (larger than repulsion)
-  const REPULSION_FORCE  = 0.22;
+  const REPULSION_FORCE  = 0.15;
   const RETURN_SPEED     = 0.1;
-  const MAX_GLOW_BLUR    = 10;    // peak shadowBlur for the nearest dots
+  const MAX_HALO_EXTRA   = 2;     // halo ring: extra px beyond DOT_RADIUS
+  const HALO_ALPHA_MAX   = 0.08;  // halo ring: peak alpha at closest dot
 
-  // ─── State ────────────────────────────────────────────────
+  // ─── Theme-aware colors ───────────────────────────────────
+  function buildColors(isLight: boolean) {
+    return {
+      dot:  isLight ? 'rgba(50, 60, 180, 0.28)' : 'rgba(108, 126, 255, 0.18)',
+      glow: isLight
+        ? (e: number) => {
+            const r = (50  + e *  10) | 0;   // 50  → 60
+            const g = (60  - e *  20) | 0;   // 60  → 40
+            const b = (180 - e *  60) | 0;   // 180 → 120
+            const a = +(0.28 + e * 0.62).toFixed(2);
+            return `rgba(${r},${g},${b},${a})`;
+          }
+        : (e: number) => {
+            const r = (108 + e * 107) | 0;   // 108 → 215
+            const g = (126 + e *  94) | 0;   // 126 → 220
+            const a = +(0.18 + e * 0.82).toFixed(2);
+            return `rgba(${r},${g},255,${a})`;
+          },
+      halo: isLight
+        ? (a: number) => `rgba(50,60,180,${a.toFixed(2)})`
+        : (a: number) => `rgba(180,200,255,${a.toFixed(2)})`,
+    };
+  }
+
+  let isLight = document.documentElement.dataset.theme === 'light';
+  let colors  = buildColors(isLight);
+
+  // Pre-computed squared radii — eliminates repeated multiplications in the
+  // hot loop and lets us skip Math.sqrt() for dots that are far away.
+  const GLOW_R2   = GLOW_RADIUS      * GLOW_RADIUS;
+  const INF_R2    = INFLUENCE_RADIUS * INFLUENCE_RADIUS;
+  // Cap the rAF loop to ~60 fps so the physics speed is consistent on
+  // 120 / 144 / 240 Hz displays and unnecessary frames are skipped.
+  const FRAME_MIN = 1000 / 60;
+
+  // ─── Canvas context ───────────────────────────────────────
   const canvas = document.getElementById('bg-canvas') as HTMLCanvasElement;
   const ctx    = canvas.getContext('2d')!;
 
   interface Dot {
     bx: number; by: number;   // base position
-    cx: number; cy: number;   // current position
+    cx: number; cy: number;   // current (spring) position
   }
 
-  let dots: Dot[] = [];
-  let mouse = { x: -9999, y: -9999 };
-  let rafId: number;
+  let dots:    Dot[]   = [];
+  let mouse    = { x: -9999, y: -9999 };
+  let rafId    = 0;
+  let running  = false;
+  let lastMs   = 0;
+
+  // Reusable per-frame glow buffers — reset .length each frame so the
+  // arrays are cleared without allocating new objects.
+  const glowDots: Dot[]    = [];
+  const glowEase: number[] = [];
 
   // ─── Helpers ──────────────────────────────────────────────
-  // Smoothstep — S-curve ease in/out, t in [0,1]
   function smoothstep(t: number): number {
     return t * t * (3 - 2 * t);
   }
 
-  // Interpolate base blue → bright near-white based on ease value
-  // base: rgb(108,126,255) @0.18  →  bright: rgb(215,220,255) @1.0
-  function glowColor(ease: number): string {
-    const r = Math.round(108 + ease * (215 - 108));
-    const g = Math.round(126 + ease * (220 - 126));
-    const b = 255;
-    const a = +(0.18 + ease * (1.0 - 0.18)).toFixed(3);
-    return `rgba(${r},${g},${b},${a})`;
-  }
-
-  // ─── Build grid ───────────────────────────────────────────
+  // ─── Grid ─────────────────────────────────────────────────
   function buildGrid() {
     dots = [];
     const cols = Math.ceil(canvas.width  / GRID_SIZE) + 1;
     const rows = Math.ceil(canvas.height / GRID_SIZE) + 1;
-    for (let r = 0; r < rows; r++) {
-      for (let c = 0; c < cols; c++) {
-        const bx = c * GRID_SIZE;
-        const by = r * GRID_SIZE;
-        dots.push({ bx, by, cx: bx, cy: by });
+    for (let row = 0; row < rows; row++) {
+      for (let col = 0; col < cols; col++) {
+        dots.push({ bx: col * GRID_SIZE, by: row * GRID_SIZE,
+                    cx: col * GRID_SIZE, cy: row * GRID_SIZE });
       }
     }
   }
 
-  // ─── Resize ───────────────────────────────────────────────
   function resize() {
     canvas.width  = window.innerWidth;
     canvas.height = window.innerHeight;
     buildGrid();
+    startLoop(); // ensure at least one frame renders after resize
   }
 
-  // ─── Draw ─────────────────────────────────────────────────
-  function draw() {
+  // ─── Draw loop ────────────────────────────────────────────
+  function draw(now: number): void {
+    // ── Frame-rate cap ─────────────────────────────────────
+    if (now - lastMs < FRAME_MIN * 0.9) {
+      rafId = requestAnimationFrame(draw);
+      return;
+    }
+    lastMs = now;
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    for (const dot of dots) {
-      const dx   = dot.bx - mouse.x;
-      const dy   = dot.by - mouse.y;
-      const dist = Math.sqrt(dx * dx + dy * dy);
+    glowDots.length = 0;
+    glowEase.length = 0;
+    let maxDisp2    = 0;
 
-      // ── Repulsion spring ──────────────────────────────────
-      if (dist < INFLUENCE_RADIUS) {
-        const force = (1 - dist / INFLUENCE_RADIUS) * REPULSION_FORCE;
-        const angle = Math.atan2(dy, dx);
-        dot.cx += (dot.bx + Math.cos(angle) * force * INFLUENCE_RADIUS - dot.cx) * RETURN_SPEED * 2;
-        dot.cy += (dot.by + Math.sin(angle) * force * INFLUENCE_RADIUS - dot.cy) * RETURN_SPEED * 2;
-      } else {
+    // ── Phase 1: physics + separate resting vs glow dots ──
+    // All resting dots are accumulated into a single shared canvas path so
+    // the GPU can draw them all in ONE fill() call instead of N calls.
+    ctx.beginPath();
+
+    for (const dot of dots) {
+      const dx    = dot.bx - mouse.x;
+      const dy    = dot.by - mouse.y;
+      const dist2 = dx * dx + dy * dy;
+
+      if (dist2 >= GLOW_R2) {
+        // ── Fast path: dot is far from cursor ──────────────
+        // No sqrt needed — just spring back and add to resting batch.
         dot.cx += (dot.bx - dot.cx) * RETURN_SPEED;
         dot.cy += (dot.by - dot.cy) * RETURN_SPEED;
+        // moveTo starts a new subpath so arcs don't connect with lines.
+        ctx.moveTo(dot.cx + DOT_RADIUS, dot.cy);
+        ctx.arc(dot.cx, dot.cy, DOT_RADIUS, 0, Math.PI * 2);
+      } else {
+        // ── Near path: inside glow range — compute dist once ─
+        const dist = Math.sqrt(dist2);
+
+        if (dist2 < INF_R2) {
+          const force = (1 - dist / INFLUENCE_RADIUS) * REPULSION_FORCE;
+          const angle = Math.atan2(dy, dx);
+          dot.cx += (dot.bx + Math.cos(angle) * force * INFLUENCE_RADIUS - dot.cx) * RETURN_SPEED * 2;
+          dot.cy += (dot.by + Math.sin(angle) * force * INFLUENCE_RADIUS - dot.cy) * RETURN_SPEED * 2;
+        } else {
+          dot.cx += (dot.bx - dot.cx) * RETURN_SPEED;
+          dot.cy += (dot.by - dot.cy) * RETURN_SPEED;
+        }
+
+        glowDots.push(dot);
+        glowEase.push(smoothstep(1 - dist / GLOW_RADIUS));
       }
 
-      // ── Radial glow  (GLOW_RADIUS > INFLUENCE_RADIUS) ─────
-      if (dist < GLOW_RADIUS) {
-        const tRaw  = 1 - dist / GLOW_RADIUS;     // linear  [0 → 1]
-        const tEase = smoothstep(tRaw);            // eased   [0 → 1]
+      // Track the maximum displacement for idle detection below.
+      const ddx = dot.cx - dot.bx;
+      const ddy = dot.cy - dot.by;
+      const d2  = ddx * ddx + ddy * ddy;
+      if (d2 > maxDisp2) maxDisp2 = d2;
+    }
 
-        ctx.shadowColor = 'rgba(200, 210, 255, 0.85)';
-        ctx.shadowBlur  = tEase * MAX_GLOW_BLUR;
-        ctx.fillStyle   = glowColor(tEase);
-        ctx.globalAlpha = 1;
-      } else {
-        ctx.shadowBlur  = 0;
-        ctx.fillStyle   = DOT_COLOR;
-        ctx.globalAlpha = 1;
+    // ── Phase 2a: single fill call for ALL resting dots ───
+    ctx.fillStyle = colors.dot;
+    ctx.fill();
+
+    // ── Phase 2b: glow dots — halo ring + bright dot ──────
+    // shadowBlur is intentionally NEVER used — it triggers a per-draw-call
+    // GPU blur pass that is 10–50× more expensive than a plain arc fill.
+    // The halo ring (a larger semi-transparent circle) gives the same look.
+    for (let i = 0; i < glowDots.length; i++) {
+      const dot   = glowDots[i];
+      const tEase = glowEase[i];
+
+      if (tEase > 0.02) {
+        ctx.beginPath();
+        ctx.arc(dot.cx, dot.cy, DOT_RADIUS + tEase * MAX_HALO_EXTRA, 0, Math.PI * 2);
+        ctx.fillStyle = colors.halo(tEase * HALO_ALPHA_MAX);
+        ctx.fill();
       }
 
       ctx.beginPath();
       ctx.arc(dot.cx, dot.cy, DOT_RADIUS, 0, Math.PI * 2);
+      ctx.fillStyle = colors.glow(tEase);
       ctx.fill();
     }
 
-    // Reset shadow so it never bleeds into other draw calls
-    ctx.shadowBlur  = 0;
-    ctx.globalAlpha = 1;
+    // ── Idle detection: pause the loop until next interaction ─
+    // When the mouse has left the window AND every dot has settled back to
+    // within 0.1 px of its base position, stop requesting frames.
+    if (mouse.x < -100 && maxDisp2 < 0.01) {
+      running = false;
+      return;
+    }
+
     rafId = requestAnimationFrame(draw);
   }
 
-  // ─── Mouse tracking ───────────────────────────────────────
+  // ─── Interaction: restart the loop on any input ───────────
+  function startLoop() {
+    if (!running) {
+      running = true;
+      lastMs  = 0;
+      rafId   = requestAnimationFrame(draw);
+    }
+  }
+
   window.addEventListener('mousemove', (e) => {
     mouse.x = e.clientX;
     mouse.y = e.clientY;
+    startLoop();
   });
 
   window.addEventListener('mouseleave', () => {
@@ -131,11 +219,15 @@
     mouse.y = -9999;
   });
 
-  // Touch support
+  window.addEventListener('touchstart', (e) => {
+    mouse.x = e.touches[0].clientX;
+    mouse.y = e.touches[0].clientY;
+    startLoop();
+  }, { passive: true });
+
   window.addEventListener('touchmove', (e) => {
-    const t = e.touches[0];
-    mouse.x = t.clientX;
-    mouse.y = t.clientY;
+    mouse.x = e.touches[0].clientX;
+    mouse.y = e.touches[0].clientY;
   }, { passive: true });
 
   window.addEventListener('touchend', () => {
@@ -143,12 +235,25 @@
     mouse.y = -9999;
   });
 
+  // ─── Theme observer: rebuild colors when data-theme changes ─
+  new MutationObserver(() => {
+    const nowLight = document.documentElement.dataset.theme === 'light';
+    if (nowLight !== isLight) {
+      isLight = nowLight;
+      colors  = buildColors(isLight);
+      startLoop();
+    }
+  }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
   // ─── Init ─────────────────────────────────────────────────
   const ro = new ResizeObserver(resize);
   ro.observe(document.documentElement);
 
   resize();
-  draw();
+  // Render one static frame to paint the dot grid; idle detection will stop
+  // the loop immediately since no dots are displaced on load.
+  running = true;
+  rafId   = requestAnimationFrame(draw);
 </script>
 
 <style>

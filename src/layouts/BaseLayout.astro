@@ -56,6 +56,19 @@ const siteTitle = title === 'Home'
 
     <link rel="sitemap" href="/me/sitemap-index.xml" />
     <link rel="icon" type="image/svg+xml" href="/me/favicon.svg" />
+
+    <!-- Prevent flash of wrong theme — runs synchronously before first paint -->
+    <script is:inline>
+      (function () {
+        try {
+          var t = localStorage.getItem('theme');
+          if (t !== 'light' && t !== 'dark') {
+            t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+          }
+          document.documentElement.setAttribute('data-theme', t);
+        } catch (_) {}
+      })();
+    </script>
   </head>
   <body>
     <CanvasBackground />
